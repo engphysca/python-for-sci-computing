@@ -1,0 +1,43 @@
+```{r setup, include=FALSE}
+# R options
+options(htmltools.dir.version = FALSE)
+# figure height, width, dpi
+knitr::opts_chunk$set(echo = TRUE, 
+                      fig.width = 5, 
+                      fig.height = 3,
+                      dpi = 300)
+# fontawesome
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+# magick
+dev.off <- function(){
+  invisible(grDevices::dev.off())
+}
+# countdown pkg for all slide decks
+library(countdown)
+# set seed
+set.seed(1234)
+
+# to colour the text
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color, 
+      x)
+  } else x
+}
+
+# for python
+Sys.setenv(RETICULATE_PYTHON = "~/anaconda3/envs/fixed_comp/bin/python")
+library(reticulate)
+```
+
+layout: true
+  
+<div class="my-footer">
+  <span>
+    Python for Scientific Computing
+  </span>
+</div>
+
+---

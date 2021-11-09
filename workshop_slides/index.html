@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>&gt; intro to python for scientific computing</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="eddie guo" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x09149c25d5b4b9a830ed3b566921dea","expires":1}</script>
+    <script src="libs/himalaya/himalaya.js"></script>
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <link href="libs/editable/editable.css" rel="stylesheet" />
+    <script src="libs/editable/editable.js"></script>
+    <script src="libs/peerjs/peerjs.min.js"></script>
+    <script src="libs/tiny.toast/toast.min.js"></script>
+    <link href="libs/xaringanExtra-broadcast/broadcast.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-broadcast/broadcast.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"300","height":"225","margin":"1em"}</script>
+    <script src="libs/xaringanExtra_fit-screen/fit-screen.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides-style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# &gt; intro to python for scientific computing
+### eddie guo
+### fall 2021
+
+---
+
+
+
+
+
+layout: true
+  
+&lt;div class="my-footer"&gt;
+  &lt;span&gt;
+    Python for Scientific Computing
+  &lt;/span&gt;
+&lt;/div&gt;
+
+---
+
+
+
+
+
+
+
+class: middle
+
+# What are some important libraries for scientific computing?
+
+---
+
+There are many packages designed for data science with Python. Here are some of the most important ones:
+
+&lt;img src="img/libraries.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.center[.hand[Figure retrieved from [this website](https://cocalc.com/share/public_paths/741ad81231a9db8d8f83bf312458c606ddae7b1d).]]
+
+---
+
+.panelset[
+.panel[.panel-name[**matplotlib**]
+- `matplotlib` is the de facto data visualization package for Python
+- Here are some [(official) cheatsheets](https://github.com/matplotlib/cheatsheets#cheatsheets)
+
+&lt;img src="img/plt_logo.png" width="384" style="display: block; margin: auto;" /&gt;
+]
+
+.panel[.panel-name[**numpy**]
+- `numpy` is a powerful array library that includes many numerical computing tools (e.g., vectorized operations, Fourier transforms)
+- Here are [10 great numpy cheatsheets](https://blog.finxter.com/collection-10-best-numpy-cheat-sheets-every-python-coder-must-own/)
+
+&lt;img src="img/np_logo.png" width="410" style="display: block; margin: auto;" /&gt;
+]
+
+.panel[.panel-name[**pandas**]
+- `pandas` is a data analysis and manipulation tool
+- Official [pandas cheatsheet](https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf)!
+
+&lt;img src="img/pandas_logo.png" width="819" style="display: block; margin: auto;" /&gt;
+]
+
+.panel[.panel-name[**jupyter notebook**]
+- `jupyter` allows you to create documents that contain live code, equations, visualizations, and narrative text
+- The [jupyter website](https://jupyter.org/)
+
+&lt;img src="img/jupyter_logo.png" width="760" style="display: block; margin: auto;" /&gt;
+]
+
+]
+
+---
+
+class: middle
+
+# Let's get started with **data science**!
+
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+```
+
+---
+
+class: middle
+
+Let's use this data set for our discussion 😄
+
+
+```python
+df = pd.read_csv('data/cheese_and_deaths.csv')
+df.head()
+```
+
+```
+##    year  deaths  cheese_consumption
+## 0  2000     327                29.8
+## 1  2001     456                30.1
+## 2  2002     509                30.5
+## 3  2003     497                30.6
+## 4  2004     596                31.3
+```
+
+---
+
+class: middle
+
+.small[
+.panelset[
+.panel[.panel-name[Visualize Your Data]
+
+```python
+plt.figure(figsize=(5, 2.75))
+plt.scatter(df['year'], df['deaths'])
+plt.tight_layout()  # ensures things like axes labels aren't cut off
+plt.show()          # don't forget this line!
+```
+
+&lt;img src="index_files/figure-html/vis-data-1.png" width="480" /&gt;
+
+Can we make this plot prettier 🤔?
+]
+
+.panel[.panel-name[Add Axes Labels]
+
+```python
+plt.figure(figsize=(5, 2.75))
+plt.scatter(df['year'], df['deaths'])
+*plt.xlabel('Year')
+*plt.ylabel('Deaths')
+plt.tight_layout()
+plt.show()
+```
+
+&lt;img src="index_files/figure-html/vis-labels-3.png" width="480" /&gt;
+]
+
+.panel[.panel-name[Change Line Colour]
+
+```python
+plt.figure(figsize=(5, 2.75))
+*plt.scatter(df['year'], df['deaths'], color='black')
+plt.xlabel('Year')
+plt.ylabel('Deaths')
+plt.tight_layout()
+plt.show()
+```
+
+&lt;img src="index_files/figure-html/vis-prettier-line-5.png" width="480" /&gt;
+
+Our data seems to be linear... Let's use ordinary least squares to investigate 👩‍💻!
+]]
+
+]
+
+---
+
+class: middle
+
+.hand["Ordinary" least squares]
+
+Ordinary least squares seeks to minimize the squared error between our line of best fit, `\(y = A + Bx\)`, and each of our datum `\((x_i, y_i)\)`. After some [funky derivations](https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf), we arrive at
+
+`\begin{align*}
+  \Delta(x) &amp;= N \sum x^2 - (\sum x)^2 \\
+  A(x, y) &amp;= \frac{(\sum x^2 \sum y - \sum x \sum xy)}{\Delta} \\
+  B(x, y) &amp;= \frac{N \sum xy - \sum x \sum y}{\Delta}
+\end{align*}`
+
+Let's create the functions `\(\Delta\)`, `\(A\)`, and `\(B\)` together!
+
+---
+
+class: middle
+
+INSERT FUNCTIONS HERE (PANEL IT PLZ)
+
+---
+
+class: middle
+
+.your-turn[
+Using the same dataset (`df`),
+1. Plot `year` on the x-axiss and `cheese_consumption` on the y-axis.
+2. Colour the points red.
+3. Include a regression line on your plot!
+]
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+<div class="countdown" id="timer_6189ff5c" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+class: middle
+
+.pull-left-narrow[
+.hand[Let's draw a dinosaur!]
+
+![](img/dino-meme.jpeg)&lt;!-- --&gt;
+]
+
+.pull-right-wide[
+.hand[Here are your tasks:]
+1. Download [data_dino.csv (click me)](./data_dino.csv).
+2. Read `data_dino.csv` into Python.
+3. Attempt to plot a dinosaur!
+4. (bonus) Hide the axes labels.
+
+**Hint:** The previous slides might come in handy.
+]
+
+<div class="countdown" id="timer_6189ffd4" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+class: middle
+
+.pull-left-wide[
+.hand[hopefully you've got a hang of it!]
+
+
+```python
+path = 'data/data_dino.csv'
+dino_df = pd.read_csv(path)
+plt.figure(figsize=(4, 4))
+plt.scatter(dino_df['horizontal'],
+  dino_df['vertical'],
+  color='black')
+plt.axis('off')
+plt.show()
+```
+
+]
+
+.pull-right-narrow[
+.hand[this is what it's supposed to look like]
+
+&lt;img src="img/dino.png" width="384" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+.hand[make sure to visualize your data!]
+
+![](img/DinoSequential.gif)&lt;!-- --&gt;
+
+.hand[the Datasaurus Dozen: click [here](https://www.autodesk.com/research/publications/same-stats-different-graphs) for the original publication]
+
+---
+
+.hand[discussion: what have we learned so far?]
+
+.can-edit[
+-
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-light",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
