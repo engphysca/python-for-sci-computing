@@ -180,7 +180,104 @@ Let's create the functions $\Delta$, $A$, and $B$ together!
 
 class: middle
 
-INSERT FUNCTIONS HERE (PANEL IT PLZ)
+.panelset[
+.panel[.panel-name[Delta(x)]
+.small[.hand[how do we create a function in Python?]]
+
+\begin{equation*}
+  \Delta(x) = N \sum x^2 - (\sum x)^2
+\end{equation*}
+
+.can-edit[
+add code here!
+]
+]
+
+.panel[.panel-name[A(x, y)]
+.small[.hand[hint: use Delta (the function we just created)]]
+
+\begin{equation*}
+  A(x, y) = \frac{(\sum x^2 \sum y - \sum x \sum xy)}{\Delta}
+\end{equation*}
+
+.can-edit[
+add code here
+]
+]
+
+.panel[.panel-name[B(x, y)]
+.small[.hand[Your turn!]]
+
+\begin{equation*}
+  B(x, y) = \frac{N \sum xy - \sum x \sum y}{\Delta}
+\end{equation*}
+
+.can-edit[
+you add the code now :)
+]
+
+<br><br><br><br><br><br><br>
+```{r echo=FALSE}
+countdown(minutes = 1)
+```
+
+]
+]
+
+---
+
+class: middle
+
+.small[.hand[Let's add a line to our plot `r emo::ji('smile')`]]
+
+```{python orig-fig}
+plt.figure(figsize=(5, 2.75))
+plt.scatter(df['year'], df['deaths'], color='black')
+plt.xlabel('Year')
+plt.ylabel('Deaths')
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+class: middle
+.panelset[
+.panel[.panel-name[Generate the line]
+```{python, echo=F}
+def Delta(x):
+  return len(x) * np.sum(x**2) - (np.sum(x))**2
+
+def A(x, y):
+  return (np.sum(x**2)*np.sum(y) - np.sum(x)*np.sum(x*y)) / Delta(x)
+
+def B(x, y):
+  return (len(x)*np.sum(x*y) - np.sum(x)*np.sum(y)) / Delta(x)
+```
+
+.small[
+```{python line}
+intercept = A(df['year'], df['deaths'])
+slope = B(df['year'], df['deaths'])
+x = np.linspace(min(df['year']), max(df['year']), len(df['year']))
+y = intercept + slope*x
+```
+]]
+
+.panel[.panel-name[Plot the line]
+.small[
+```{python with-line}
+plt.figure(figsize=(5, 2.75))
+plt.plot(x, y) #<<
+plt.scatter(df['year'], df['deaths'], color='black')
+plt.xlabel('Year')
+plt.ylabel('Deaths')
+plt.tight_layout()
+plt.show()
+```
+]]
+
+]
 
 ---
 
@@ -188,7 +285,7 @@ class: middle
 
 .your-turn[
 Using the same dataset (`df`),
-1. Plot `year` on the x-axiss and `cheese_consumption` on the y-axis.
+1. Plot `year` on the x-axis and `cheese_consumption` on the y-axis.
 2. Colour the points red.
 3. Include a regression line on your plot!
 ]
@@ -269,3 +366,7 @@ knitr::include_graphics("img/DinoSequential.gif")
 .can-edit[
 -
 ]
+
+---
+
+.hand[Thanks for coming out to the workshop `r emo::ji('smile')`]
