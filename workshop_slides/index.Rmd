@@ -110,7 +110,7 @@ import pandas as pd
 
 class: middle
 
-Let's use this data set for our discussion `r emo::ji('smile')`
+Let's use [this data set](./data/cheese_and_deaths.csv) for our discussion `r emo::ji('smile')` ([click to download](./data/cheese_and_deaths.csv))
 
 ```{python read-data}
 df = pd.read_csv('data/cheese_and_deaths.csv')
@@ -118,8 +118,6 @@ df.head()
 ```
 
 ---
-
-class: middle
 
 .small[
 .panelset[
@@ -177,8 +175,6 @@ Ordinary least squares seeks to minimize the squared error between our line of b
 Let's create the functions $\Delta$, $A$, and $B$ together!
 
 ---
-
-class: middle
 
 .panelset[
 .panel[.panel-name[Delta(x)]
@@ -241,7 +237,6 @@ plt.show()
 
 ---
 
-class: middle
 .panelset[
 .panel[.panel-name[Generate the line]
 ```{python, echo=F}
@@ -369,4 +364,6 @@ knitr::include_graphics("img/DinoSequential.gif")
 
 ---
 
-.hand[Thanks for coming out to the workshop `r emo::ji('smile')`]
+class: middle
+
+# Thanks for coming out to the workshop `r emo::ji('smile')`
