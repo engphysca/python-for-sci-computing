@@ -110,7 +110,7 @@ import pandas as pd
 
 class: middle
 
-Let's use [this data set](./data/cheese_and_deaths.csv) for our discussion `r emo::ji('smile')` ([click to download](./data/cheese_and_deaths.csv))
+Let's use [the cheese and deaths dataset](./data/cheese_and_deaths.csv) for our discussion `r emo::ji('smile')` ([click me to download](./data/cheese_and_deaths.csv))
 
 ```{python read-data}
 df = pd.read_csv('data/cheese_and_deaths.csv')
@@ -185,7 +185,7 @@ Let's create the functions $\Delta$, $A$, and $B$ together!
 \end{equation*}
 
 .can-edit[
-add code here!
+click here to add code :)
 ]
 ]
 
@@ -197,22 +197,20 @@ add code here!
 \end{equation*}
 
 .can-edit[
-add code here
+click here to add code :)
 ]
 ]
 
 .panel[.panel-name[B(x, y)]
-.small[.hand[Your turn!]]
-
 \begin{equation*}
   B(x, y) = \frac{N \sum xy - \sum x \sum y}{\Delta}
 \end{equation*}
 
 .can-edit[
-you add the code now :)
+your turn to code now :)
 ]
 
-<br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
 ```{r echo=FALSE}
 countdown(minutes = 1)
 ```
@@ -222,11 +220,11 @@ countdown(minutes = 1)
 
 ---
 
-class: middle
+.panelset[
+.panel[.panel-name[How do we add lines?]
+.small[.hand[Recall that this was our plot:]
 
-.small[.hand[Let's add a line to our plot `r emo::ji('smile')`]]
-
-```{python orig-fig}
+```{python orig-fig, echo=F}
 plt.figure(figsize=(5, 2.75))
 plt.scatter(df['year'], df['deaths'], color='black')
 plt.xlabel('Year')
@@ -234,11 +232,11 @@ plt.ylabel('Deaths')
 plt.tight_layout()
 plt.show()
 ```
+]]
 
----
-
-.panelset[
 .panel[.panel-name[Generate the line]
+.small[.hand[Let's add a line to our plot `r emo::ji('smile')`]
+
 ```{python, echo=F}
 def Delta(x):
   return len(x) * np.sum(x**2) - (np.sum(x))**2
@@ -250,20 +248,21 @@ def B(x, y):
   return (len(x)*np.sum(x*y) - np.sum(x)*np.sum(y)) / Delta(x)
 ```
 
-.small[
 ```{python line}
 intercept = A(df['year'], df['deaths'])
 slope = B(df['year'], df['deaths'])
 x = np.linspace(min(df['year']), max(df['year']), len(df['year']))
 y = intercept + slope*x
 ```
+
+The function `np.linspace(start, stop, num)` will generate evenly spaced numbers `num` times from `start` to `stop`.
 ]]
 
 .panel[.panel-name[Plot the line]
 .small[
 ```{python with-line}
 plt.figure(figsize=(5, 2.75))
-plt.plot(x, y) #<<
+plt.plot(x, y, color='black') #<<
 plt.scatter(df['year'], df['deaths'], color='black')
 plt.xlabel('Year')
 plt.ylabel('Deaths')
@@ -289,6 +288,148 @@ Using the same dataset (`df`),
 ```{r echo=FALSE}
 countdown(minutes = 2)
 ```
+
+---
+
+class: middle
+
+# Subplots
+
+.hand[Q:] It's nice that we have a plot for `year` vs `deaths` and `year` vs `cheese_consumption`, but what if we want them on the same plot?
+
+.hand[A:] Subplots!
+
+---
+
+.panelset[
+.panel[.panel-name[Adding the cheese axis]
+Recall from previou slides that `x = df['year']` and `y = df['deaths']`.
+
+Let's create the second y-axis, `y1`.
+
+```{python second-axes}
+intercept_cheese = A(df['year'], df['cheese_consumption'])
+slope_cheese = B(df['year'], df['cheese_consumption'])
+y1 = slope_cheese*x + intercept_cheese
+```
+]
+
+.panel[.panel-name[Subplots]
+.small[
+.pull-left[
+```{python, eval=F}
+fig, ax1 = plt.subplots() #<<
+ax2 = ax1.twinx() #<<
+
+ax1.plot(x, y, color='red')
+ax2.plot(x, y1, color='black')
+ax1.scatter(df['year'], df['deaths'],
+  color='red')
+ax2.scatter(df['year'],
+  df['cheese_consumption'],
+  color='black')
+
+ax1.set_xlabel('Year')
+ax1.set_ylabel('Besheet tanglies',
+  color='red')
+ax2.set_ylabel('Cheese consumed (lbs)')
+
+plt.tight_layout()
+plt.show()
+```
+]
+
+.pull-right[
+```{python subplots, echo=F}
+fig, ax1 = plt.subplots() #<<
+ax2 = ax1.twinx() #<<
+
+ax1.plot(x, y, color='red')
+ax2.plot(x, y1, color='black')
+ax1.scatter(df['year'], df['deaths'], color='red')
+ax2.scatter(df['year'], df['cheese_consumption'], color='black')
+
+ax1.set_xlabel('Year')
+ax1.set_ylabel('Besheet tanglies (deaths)', color='red')
+ax2.set_ylabel('Cheese consumed (lbs)')
+
+plt.tight_layout()
+plt.show()
+```
+
+.hand[Hmmm... this plot might be nice enough to save `r emo::ji('wink')`.]
+]
+
+]]
+
+.panel[.panel-name[Saving figures]
+.pull-left[
+.hand[Saving is as easy as plt.savefig()!]
+
+.tiny[
+```{python save-fig, echo=F}
+fig, ax1 = plt.subplots()
+ax2 = ax1.twinx()
+
+ax1.plot(x, y, color='red')
+ax2.plot(x, y1, color='black')
+ax1.scatter(df['year'], df['deaths'], color='red')
+ax2.scatter(df['year'], df['cheese_consumption'], color='black')
+
+ax1.set_xlabel('Year')
+ax1.set_ylabel('Besheet tanglies (deaths)', color='red')
+ax2.set_ylabel('Cheese consumed (lbs)')
+
+plt.tight_layout()
+plt.savefig('my_figs_name.png', dpi=250) #<<
+plt.show()
+```
+]]
+.pull-right[
+.hand[Fun fact: the correlation between per capita cheese consumption and number of people who die by becoming tangled in their bedsheets in this dataset is 94.71% (r = 0.9471).]
+
+.small[Correlation != causation (or does it... haha)]
+]
+
+]
+
+]
+
+---
+
+class: middle
+
+# Now let's look at some common issues and their solutions `r emo::ji('coder')`
+
+---
+
+.panelset[
+.panel[.panel-name[Reading data]
+Issue: "I can't read my data in!"
+
+Solution: Check that your working directory is correct. Also check that you're reading in the correct file type.
+]
+
+.panel[.panel-name[Functions]
+Issue: "plt.plot(), np,linspace, pd.read_csv() aren't working `r emo::ji('angry')`"
+
+Solution: Make sure you import the libraries! Make sure to install them too (only need to install once).
+
+E.g., `pip install pandas`, `pip3 install numpy`, `conda install matplotlib`.
+]
+
+.panel[.panel-name[Empty plot]
+Issue: "My plot is empty when I save my figure `r emo::ji('sad')`"
+
+Solution: Save your figure *before* calling `plt.show()`.
+]
+
+.panel[.panel-name[Other bugs]
+Issue: "How do I do [x, y, z]???" 
+
+Solution: Stack Overflow and Google are your best friends!
+]
+]
 
 ---
 

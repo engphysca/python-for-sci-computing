@@ -9,7 +9,7 @@
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"d8af196d5f0447999251be35ef90fbaa","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xd3f2c82b7274dc48c5416cb8ad653d3","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -120,7 +120,7 @@ import pandas as pd
 
 class: middle
 
-Let's use [this data set](./data/cheese_and_deaths.csv) for our discussion 😄 ([click to download](./data/cheese_and_deaths.csv))
+Let's use [the cheese and deaths dataset](./data/cheese_and_deaths.csv) for our discussion 😄 ([click me to download](./data/cheese_and_deaths.csv))
 
 
 ```python
@@ -214,7 +214,7 @@ Let's create the functions `\(\Delta\)`, `\(A\)`, and `\(B\)` together!
 \end{equation*}`
 
 .can-edit[
-add code here!
+click here to add code :)
 ]
 ]
 
@@ -226,23 +226,21 @@ add code here!
 \end{equation*}`
 
 .can-edit[
-add code here
+click here to add code :)
 ]
 ]
 
 .panel[.panel-name[B(x, y)]
-.small[.hand[Your turn!]]
-
 `\begin{equation*}
   B(x, y) = \frac{N \sum xy - \sum x \sum y}{\Delta}
 \end{equation*}`
 
 .can-edit[
-you add the code now :)
+your turn to code now :)
 ]
 
-&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
-<div class="countdown" id="timer_618ad31b" style="right:0;bottom:0;" data-warnwhen="0">
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+<div class="countdown" id="timer_618b3427" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -251,29 +249,18 @@ you add the code now :)
 
 ---
 
-class: middle
-
-.small[.hand[Let's add a line to our plot 😄]]
-
-
-```python
-plt.figure(figsize=(5, 2.75))
-plt.scatter(df['year'], df['deaths'], color='black')
-plt.xlabel('Year')
-plt.ylabel('Deaths')
-plt.tight_layout()
-plt.show()
-```
+.panelset[
+.panel[.panel-name[How do we add lines?]
+.small[.hand[Recall that this was our plot:]
 
 &lt;img src="index_files/figure-html/orig-fig-1.png" width="480" /&gt;
+]]
 
----
-
-.panelset[
 .panel[.panel-name[Generate the line]
+.small[.hand[Let's add a line to our plot 😄]
 
 
-.small[
+
 
 ```python
 intercept = A(df['year'], df['deaths'])
@@ -281,6 +268,8 @@ slope = B(df['year'], df['deaths'])
 x = np.linspace(min(df['year']), max(df['year']), len(df['year']))
 y = intercept + slope*x
 ```
+
+The function `np.linspace(start, stop, num)` will generate evenly spaced numbers `num` times from `start` to `stop`.
 ]]
 
 .panel[.panel-name[Plot the line]
@@ -288,7 +277,7 @@ y = intercept + slope*x
 
 ```python
 plt.figure(figsize=(5, 2.75))
-*plt.plot(x, y)
+*plt.plot(x, y, color='black')
 plt.scatter(df['year'], df['deaths'], color='black')
 plt.xlabel('Year')
 plt.ylabel('Deaths')
@@ -313,9 +302,122 @@ Using the same dataset (`df`),
 ]
 &lt;br&gt;&lt;br&gt;&lt;br&gt;
 
-<div class="countdown" id="timer_618ad0b7" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_618b32db" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
+
+---
+
+class: middle
+
+# Subplots
+
+.hand[Q:] It's nice that we have a plot for `year` vs `deaths` and `year` vs `cheese_consumption`, but what if we want them on the same plot?
+
+.hand[A:] Subplots!
+
+---
+
+.panelset[
+.panel[.panel-name[Adding the cheese axis]
+Recall from previou slides that `x = df['year']` and `y = df['deaths']`.
+
+Let's create the second y-axis, `y1`.
+
+
+```python
+intercept_cheese = A(df['year'], df['cheese_consumption'])
+slope_cheese = B(df['year'], df['cheese_consumption'])
+y1 = slope_cheese*x + intercept_cheese
+```
+]
+
+.panel[.panel-name[Subplots]
+.small[
+.pull-left[
+
+```python
+*fig, ax1 = plt.subplots()
+*ax2 = ax1.twinx()
+
+ax1.plot(x, y, color='red')
+ax2.plot(x, y1, color='black')
+ax1.scatter(df['year'], df['deaths'],
+  color='red')
+ax2.scatter(df['year'],
+  df['cheese_consumption'],
+  color='black')
+
+ax1.set_xlabel('Year')
+ax1.set_ylabel('Besheet tanglies',
+  color='red')
+ax2.set_ylabel('Cheese consumed (lbs)')
+
+plt.tight_layout()
+plt.show()
+```
+]
+
+.pull-right[
+&lt;img src="index_files/figure-html/subplots-1.png" width="480" /&gt;
+
+.hand[Hmmm... this plot might be nice enough to save 😉.]
+]
+
+]]
+
+.panel[.panel-name[Saving figures]
+.pull-left[
+.hand[Saving is as easy as plt.savefig()!]
+
+.tiny[
+&lt;img src="index_files/figure-html/save-fig-3.png" width="480" /&gt;
+]]
+.pull-right[
+.hand[Fun fact: the correlation between per capita cheese consumption and number of people who die by becoming tangled in their bedsheets in this dataset is 94.71% (r = 0.9471).]
+
+.small[Correlation != causation (or does it... haha)]
+]
+
+]
+
+]
+
+---
+
+class: middle
+
+# Now let's look at some common issues and their solutions 👨‍💻
+
+---
+
+.panelset[
+.panel[.panel-name[Reading data]
+Issue: "I can't read my data in!"
+
+Solution: Check that your working directory is correct. Also check that you're reading in the correct file type.
+]
+
+.panel[.panel-name[Functions]
+Issue: "plt.plot(), np,linspace, pd.read_csv() aren't working 😠"
+
+Solution: Make sure you import the libraries! Make sure to install them too (only need to install once).
+
+E.g., `pip install pandas`, `pip3 install numpy`, `conda install matplotlib`.
+]
+
+.panel[.panel-name[Empty plot]
+Issue: "My plot is empty when I save my figure 😢"
+
+Solution: Save your figure *before* calling `plt.show()`.
+]
+
+.panel[.panel-name[Other bugs]
+Issue: "How do I do [x, y, z]???" 
+
+Solution: Stack Overflow and Google are your best friends!
+]
+]
 
 ---
 
@@ -337,7 +439,7 @@ class: middle
 **Hint:** The previous slides might come in handy.
 ]
 
-<div class="countdown" id="timer_618ad0dd" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_618b3622" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
