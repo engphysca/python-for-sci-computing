@@ -367,7 +367,7 @@ plt.show()
 .hand[Saving is as easy as plt.savefig()!]
 
 .tiny[
-```{python save-fig, echo=F}
+```{python save-fig, eval=F}
 fig, ax1 = plt.subplots()
 ax2 = ax1.twinx()
 

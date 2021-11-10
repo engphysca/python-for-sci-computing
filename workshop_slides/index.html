@@ -9,7 +9,7 @@
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xd3f2c82b7274dc48c5416cb8ad653d3","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"fad2443adcf64900a96a3a22cfa5efde","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -240,7 +240,7 @@ your turn to code now :)
 ]
 
 &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
-<div class="countdown" id="timer_618b3427" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_618b3678" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -302,7 +302,7 @@ Using the same dataset (`df`),
 ]
 &lt;br&gt;&lt;br&gt;&lt;br&gt;
 
-<div class="countdown" id="timer_618b32db" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_618b3720" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -371,7 +371,24 @@ plt.show()
 .hand[Saving is as easy as plt.savefig()!]
 
 .tiny[
-&lt;img src="index_files/figure-html/save-fig-3.png" width="480" /&gt;
+
+```python
+fig, ax1 = plt.subplots()
+ax2 = ax1.twinx()
+
+ax1.plot(x, y, color='red')
+ax2.plot(x, y1, color='black')
+ax1.scatter(df['year'], df['deaths'], color='red')
+ax2.scatter(df['year'], df['cheese_consumption'], color='black')
+
+ax1.set_xlabel('Year')
+ax1.set_ylabel('Besheet tanglies (deaths)', color='red')
+ax2.set_ylabel('Cheese consumed (lbs)')
+
+plt.tight_layout()
+*plt.savefig('my_figs_name.png', dpi=250)
+plt.show()
+```
 ]]
 .pull-right[
 .hand[Fun fact: the correlation between per capita cheese consumption and number of people who die by becoming tangled in their bedsheets in this dataset is 94.71% (r = 0.9471).]
@@ -439,7 +456,7 @@ class: middle
 **Hint:** The previous slides might come in handy.
 ]
 
-<div class="countdown" id="timer_618b3622" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown" id="timer_618b34cc" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
